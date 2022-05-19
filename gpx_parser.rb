@@ -1,3 +1,4 @@
+FAVORITES_FILE = './data/favorites.gpx'
 
 class OsmAndFavoritesParser
 
@@ -16,6 +17,29 @@ class OsmAndFavoritesParser
     areas.tally
   end
 
+  def coordinates(name)
+    address_table[name][:coordinates]
+  end
+
+  def display_entry(name)
+  puts <<~ENTRY
+    Name: #{name}
+    Area: #{address_table[name][:area]}
+    Coordinates: Lat= #{address_table[name][:coordinates][:lattitude]}  Lon= #{address_table[name][:coordinates][:longitude]}
+    Google Map Link: #{google_map_link(name)}
+    Description: #{address_table[name][:description]}
+    ENTRY
+  end
+
+  def google_map_link(name)
+    lat = address_table[name][:coordinates][:lattitude]
+    lon = address_table[name][:coordinates][:longitude]
+    "https://www.google.com/maps?q=#{lat}+#{lon}"
+  end
+
+  def names
+    address_table.keys
+  end
   private
   attr_reader :file_contents, :entry_list, :address_table, :areas
 
@@ -58,32 +82,7 @@ end
 
 
 
-parser = OsmAndFavoritesParser.new('gpx_parser.txt')
-p parser.unique_areas
-
-# file = File.read("gpx_parser.txt")
-# addr_entries = file.scan(/(?m)<wpt .+?<\/wpt>/).uniq
-
-# addr_table = {}
-# addr_entries.each do |entry|
-  # area = /<type>.*<\/type>/.match(entry)[0].gsub(/<.*?type>/, '')
-  # name = /<name>.*<\/name>/.match(entry)[0].gsub(/<.*?name>/, '')
-  # description = 
-  #   if /<desc>.*<\/desc>/.match(entry)
-  #     /<desc>.*<\/desc>/.match(entry)[0].gsub(/<.*?desc>/, '')
-  #   else
-  #     ''
-  #   end
-  # lattitude = /(lat=")\K.*\" /.match(entry)[0].strip.gsub("\"", '')
-  # longitude = /(lon=")\K.*(">)/.match(entry)[0].gsub("\">", '')
-  
-  # addr_table[name] = 
-  #   { :area => area,
-  #     :description => description,
-  #     :coordinates => {:lattitude => lattitude, :longitude => longitude }
-  #   }
-# end
-# puts addr_table.count
-
-
+parser = OsmAndFavoritesParser.new(FAVORITES_FILE)
+name = parser.names.sample
+parser.display_entry(name)
 
