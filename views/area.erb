@@ -1,0 +1,11 @@
+<% if @unique_areas.include?(@area) %>
+  <h3><%= @area %> Entries:</h3>
+  <ul>
+    <% entries = entries_in_area(@area) %>
+    <% entries.each do |entry| %>
+      <li><a href="/entry/<%= entry %>"><%= entry %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h3><%= @area %> was not found.</h3>
+<% end %>

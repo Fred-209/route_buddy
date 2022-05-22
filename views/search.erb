@@ -1,0 +1,16 @@
+<% if @search_terms == ''%>
+  <p>Search box can't be empty. Try again.</p>
+<% else %>
+  <% if @search_terms %>
+    <% if @search_results.compact.empty? %>
+      <p>Sorry, no matches were found.</p>
+    <% else %>
+       <h2>Results for '<%= params[:query] %>' </h2> 
+        <% @search_results.each do |name| %>
+          <ul>
+            <li><a href="/entry/<%= name %>"><%= name  %></a></li>
+          </ul>
+        <% end %>
+    <% end %>
+  <% end %>
+<% end %>

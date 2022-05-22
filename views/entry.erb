@@ -1,0 +1,17 @@
+<h3><%= @name %></h3>
+<p>
+  <strong>Area:</strong> <%= @entry[:area] %>
+</p>
+<p>
+  <strong>Coordinates: </strong>
+   <ul> 
+    <li><em>Lattitude:</em> <%= @entry[:coordinates][:lat] %></li>
+    <li><em>Longitude:</em> <%= @entry[:coordinates][:lon] %></li>
+   </ul>
+</p>
+<p>
+  <strong>Google Maps Link:</strong> <a href=<%= @url %> target=_blank>Link</a>
+</p>
+<p>
+  <strong>Description:</strong> <%= @entry[:description] %>
+</p>

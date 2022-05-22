@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OsmAnd Favorites Editor</title>
+    <%# <link rel="stylesheet" type="text/css" href="/stylesheets/main.css"> %>
+  </head>
+  <body>
+    <section id="content" >
+      <nav><a href="/">Home</a></nav>
+      <h2 class="content-subhead">Search</h2>
+      <form action="/search" method="get">
+        <input name="query" value="<%= params[:query] %>">
+        <button type="submit">Search</button>
+      </form>
+      <%= yield %>
+    </section>
+  <footer>
+    <small>OsmAnd Favorites</small>
+  </footer>
+  </body>
+</html>
