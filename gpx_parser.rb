@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'tilt/erubis'
-require "sinatra/reloader" 
+require "sinatra/reloader" if development?
 require_relative 'lib/osmand_favs_parser'
 
 FAVORITES_FILE = './data/favorites.gpx'
@@ -29,6 +29,10 @@ helpers do
       matches << entry if values[:area] == area
     end
     matches
+  end
+
+  def group_by_route_num(entries)
+    entries.group_by { |entry| @address_table[entry][:route_num]}.sort.to_h
   end
 end
 

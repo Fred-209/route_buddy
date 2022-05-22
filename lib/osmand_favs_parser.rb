@@ -41,7 +41,7 @@ class OsmAndFavoritesParser
   def names
     address_table.keys
   end
-  private
+  # private
   attr_reader :file_contents, :entry_list, :areas
 
   def extract_entries
@@ -61,9 +61,14 @@ class OsmAndFavoritesParser
   end
 
   def create_address_table
+    # extract rural route and box number if they exist
+    # route = route_number
+    # box = box_number
+
     entry_list.each_with_object({}) do |entry, table|
       name = entry.css('name').text
       area = entry.css('type').text
+      route_num, box_num = get_rural_route_address(name)
       description = 
         if entry.css('desc').text.empty? 
           "No description entered."
@@ -76,16 +81,29 @@ class OsmAndFavoritesParser
       table[name] = 
         { :name => name,
           :area => area,
-          :description => description,
-          :coordinates => {:lat => lat, :lon => lon }
+          :route_num => route_num,
+          :box_num => box_num,
+          :coordinates => {:lat => lat, :lon => lon },
+          :description => description
         }
       end
   end
+
+  def get_rural_route_address(name)
+    route_pattern = /\ARR\s*(?<route>\d+)\s*Box\s*(?<box>\d+)\s*.*\z/i
+    match = route_pattern.match(name)
+    return ["N/A", "N/A"] unless match
+    
+    route_num = match[:route]
+    box_num = match[:box]
+    [route_num, box_num]
+    end
 end
 
 
 
 # parser = OsmAndFavoritesParser.new('../data/favorites.gpx')
+# p parser.get_rural_route_address('RR 5 Box 44 - asl;dkjasf')
 # name = parser.names.sample
 # puts parser.display_entry(name)
 

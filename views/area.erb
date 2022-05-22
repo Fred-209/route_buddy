@@ -1,11 +1,19 @@
 <% if @unique_areas.include?(@area) %>
   <h3><%= @area %> Entries:</h3>
-  <ul>
-    <% entries = entries_in_area(@area) %>
-    <% entries.each do |entry| %>
-      <li><a href="/entry/<%= entry %>"><%= entry %></a></li>
-    <% end %>
-  </ul>
+  <% entries_in_area = entries_in_area(@area) %>
+  <% route_groups = group_by_route_num(entries_in_area) %>
+  <% route_groups.each_pair do |route_num, entries| %>
+    <details>
+      <% title = route_num == "N/A" ? "Non RR Addresses" : "RR #{route_num}" %>
+      <summary><%= title %></summary>
+      <ul>
+        <% entries.each do |entry| %>
+          <li><a href="/entry/<%= entry %>"><%= entry %></a></li>
+        <% end %>
+      </ul>
+    </details>
+  <% end %>
+  
 <% else %>
   <h3><%= @area %> was not found.</h3>
 <% end %>
