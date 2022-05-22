@@ -4,7 +4,7 @@ class OsmAndFavoritesParser
   attr_reader :address_table
 
   def initialize(file_name)
-    @file_contents = File.open(file_name) { |f| Nokogiri::XML(f)}
+    @file_contents = File.open(file_name, "r") { |f| Nokogiri::XML(f)}
     @entry_list = extract_entries
     @address_table = create_address_table
     @areas = extract_areas
@@ -102,8 +102,4 @@ end
 
 
 
-# parser = OsmAndFavoritesParser.new('../data/favorites.gpx')
-# p parser.get_rural_route_address('RR 5 Box 44 - asl;dkjasf')
-# name = parser.names.sample
-# puts parser.display_entry(name)
 

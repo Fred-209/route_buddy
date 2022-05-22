@@ -3,7 +3,7 @@ require 'tilt/erubis'
 require "sinatra/reloader" if development?
 require_relative 'lib/osmand_favs_parser'
 
-FAVORITES_FILE = './data/favorites.gpx'
+FAVORITES_FILE = 'data/favorites.gpx'
 
 before do 
   @parser = OsmAndFavoritesParser.new(FAVORITES_FILE)
