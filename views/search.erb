@@ -5,12 +5,18 @@
     <% if @search_results.compact.empty? %>
       <p>Sorry, no matches were found.</p>
     <% else %>
-       <h2>Results for '<%= params[:query] %>' </h2>
-        <% @search_results.each do |name| %>
+      <% search_results_by_area = group_by_area(@search_results) %>
+      <h2>Results for '<%= @search_terms %>' </h2>
+      <% search_results_by_area.each_pair do |area, entries| %>
+        <details>
+          <summary><strong><%= area %></strong></summary>
           <ul>
-            <li><a href="/entry/<%= name %>"><%= name  %></a></li>
+            <% entries.each do |name| %>
+              <li><a href="/entry/<%= name %>"><%= name  %></a></li>
+            <% end %>  
           </ul>
-        <% end %>
+        </details>
+      <% end %>   
     <% end %>
   <% end %>
 <% end %>

@@ -36,6 +36,10 @@ helpers do
   end
 end
 
+def group_by_area(entries)
+  entries.group_by { |name| @address_table[name][:area] }
+end
+
 not_found do 
   redirect '/'
 end
