@@ -90,7 +90,7 @@ class OsmAndFavoritesParser
   end
 
   def get_rural_route_address(name)
-    route_pattern = /\ARR\s*(?<route>\d+)\s*Box\s*(?<box>\d+)\s*.*\z/i
+    route_pattern = /RR\s*(?<route>\d+)\s*Box\s*(?<box>\d+)\s*.*/i
     match = route_pattern.match(name)
     return ["N/A", "N/A"] unless match
     
