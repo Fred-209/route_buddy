@@ -4,7 +4,7 @@ class OsmAndFavoritesParser
   attr_reader :address_table
 
   def initialize(file_name)
-    @file_contents = File.open(file_name, "r") { |f| Nokogiri::XML(f)}
+    @file_contents = File.open(file_name, 'r') { |f| Nokogiri::XML(f) }
     @entry_list = extract_entries
     @address_table = create_address_table
     @areas = extract_areas
@@ -45,11 +45,8 @@ class OsmAndFavoritesParser
   attr_reader :file_contents, :entry_list, :areas
 
   def extract_entries
-    # creates an array of entries of content that sits between tags <wpt></wpt> 
+    # creates an array of entries of content that sits between tags <wpt></wpt>
     # from @file_contents
-
-    # pattern = /(?m)<wpt .+?<\/wpt>/
-    # @file_contents.scan(pattern).uniq
     @file_contents.css('wpt')
   end
 
@@ -61,45 +58,38 @@ class OsmAndFavoritesParser
   end
 
   def create_address_table
-    # extract rural route and box number if they exist
-    # route = route_number
-    # box = box_number
-
+    
     entry_list.each_with_object({}) do |entry, table|
-      name = entry.css('name').text
+      name = entry.css('name').text.gsub("/", ' ')
       area = entry.css('type').text
       route_num, box_num = get_rural_route_address(name)
-      description = 
-        if entry.css('desc').text.empty? 
-          "No description entered."
+      description =
+        if entry.css('desc').text.empty?
+          'No description entered.'
         else
           entry.css('desc').text
         end
+
       lat = entry.attributes['lat'].value
       lon = entry.attributes['lon'].value
-  
-      table[name] = 
-        { :name => name,
-          :area => area,
-          :route_num => route_num,
-          :box_num => box_num,
-          :coordinates => {:lat => lat, :lon => lon },
-          :description => description
-        }
-      end
+
+      table[name] =
+        { name:,
+          area:,
+          route_num:,
+          box_num:,
+          coordinates: { lat:, lon: },
+          description: }
+    end
   end
 
   def get_rural_route_address(name)
-    route_pattern = /RR\s*(?<route>\d+)\s*Box\s*(?<box>\d+)\s*.*/i
+    route_pattern = /RR\s*(?<route>\d+)\s*Box\s*(?<box>\w+)\s*.*/i
     match = route_pattern.match(name)
-    return ["N/A", "N/A"] unless match
-    
+    return ['N/A', 'N/A'] unless match
+
     route_num = match[:route]
     box_num = match[:box]
     [route_num, box_num]
-    end
+  end
 end
-
-
-
-
