@@ -4,7 +4,7 @@ class DatabasePersistence
 
   def initialize(logger)
     @db = if Sinatra::Base.production? 
-      PG.connect("postgres://osmand_favorites_user:2Bj22QKxj9miNnIRJfEnjlgt08guO0em@dpg-cc7t2spa6gdu6hlbad10-a/osmand_favorites")
+      PG.connect(host: 'dpg-cc7t2spa6gdu6hlbad10-a', port: 5432, dbname: 'osmand_favorites',user: 'osmand_favorites_user', password: '2Bj22QKxj9miNnIRJfEnjlgt08guO0em' )
     else
       PG.connect(dbname: "osmand_favorites")
     end
