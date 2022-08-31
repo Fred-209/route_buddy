@@ -1,10 +1,15 @@
 require 'pg'
 
 
+
 class DatabasePersistence
 
   def initialize(logger)
-    @db = PG.connect(dbname: 'osmand_favorites')
+    @db = if Sinatra::Base.production? 
+      PG.connect("postgres://osmand_favorites_user:2Bj22QKxj9miNnIRJfEnjlgt08guO0em@dpg-cc7t2spa6gdu6hlbad10-a/osmand_favorites")
+    else
+      PG.connect(dbname: "osmand_favorites")
+    end
     @logger = logger
   end
 
