@@ -1,2 +1,2 @@
-require './gpx_parser'
+require './route_buddy'
 run Sinatra::Application
