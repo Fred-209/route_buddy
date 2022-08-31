@@ -1,22 +1,22 @@
 <h3><%= @name %></h3>
 <p>
-  <strong>Area:</strong> <%= @entry[:area] %>
+  <strong>Area:</strong> <%= @entry['area'] %>
 </p>
 <p>
-  <strong>Route Number:</strong> <%= @entry[:route_num] %>
+  <strong>Route Number:</strong> <%= @entry['route_num'] %>
 <p>
 <p>
-  <strong>Route Box:</strong> <%= @entry[:box_num] %>
+  <strong>Route Box:</strong> <%= @entry['route_box'] %>
 <p>
   <strong>Coordinates: </strong>
    <ul> 
-    <li><em>Lattitude:</em> <%= @entry[:coordinates][:lat] %></li>
-    <li><em>Longitude:</em> <%= @entry[:coordinates][:lon] %></li>
+    <li><em>Lattitude:</em> <%= @entry['lat'] %></li>
+    <li><em>Longitude:</em> <%= @entry['long'] %></li>
    </ul>
 </p>
 <p>
   <strong>Google Maps Link:</strong> <a href=<%= @url %> target=_blank>Link</a>
 </p>
 <p>
-  <strong>Description:</strong> <%= @entry[:description] %>
+  <strong>Description:</strong> <%= @entry['notes'] %>
 </p>

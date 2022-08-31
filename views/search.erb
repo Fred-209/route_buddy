@@ -11,8 +11,8 @@
         <details>
           <summary><strong><%= area %></strong></summary>
           <ul>
-            <% entries.each do |name| %>
-              <li><a href="/entry/<%= name %>"><%= name  %></a></li>
+            <% entries.each do |entry| %>
+              <li><a href="/entry/<%= entry['name'] %>"><%= entry['name']  %></a></li>
             <% end %>  
           </ul>
         </details>

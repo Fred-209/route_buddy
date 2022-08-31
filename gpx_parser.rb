@@ -1,74 +1,68 @@
 require 'sinatra'
 require 'tilt/erubis'
-require "sinatra/reloader" if development?
-require_relative 'lib/osmand_favs_parser'
+require_relative 'lib/database_persistence'
 
-FAVORITES_FILE = 'data/favorites.gpx'
+
+
+configure(:development) do 
+  require "sinatra/reloader" 
+  also_reload 'lib/database_persistence.rb'
+end
 
 before do 
-  @parser = OsmAndFavoritesParser.new(FAVORITES_FILE)
-  @address_table = @parser.address_table
-  @names = @parser.names
-  @entry_count = @address_table.count
-  @area_count = @parser.unique_areas.count
-  @unique_areas = @parser.unique_areas
+  @storage = DatabasePersistence.new(logger)
 end
 
 helpers do 
-  def entries_matching_search_terms(search_terms)
-    matches = []
-    @parser.names.each do |name|
-      matches << name if name.match?(/#{search_terms}/i)
-    end
-    matches
-  end
-
-  def entries_in_area(area)
-    matches = []
-    @address_table.each do |entry, values|
-      matches << entry if values[:area] == area
-    end
-    matches
+  
+  def google_map_link(entry)
+    lat = entry['lat']
+    lon = entry['long']
+    "https://www.google.com/maps/search/?api=1&query=#{lat},#{lon}"
   end
 
   def group_by_route_num(entries)
-    entries.group_by { |entry| @address_table[entry][:route_num]}.sort.to_h
+    entries.group_by { |entry| entry['route_num'] }.sort.to_h
   end
 end
 
 def group_by_area(entries)
-  entries.group_by { |name| @address_table[name][:area] }
+  entries.group_by { |entry| entry['area'] }
 end
+
+
+#### Routes
 
 not_found do 
   redirect '/'
 end
 
 get '/' do 
-
-  @entry = @parser.address_table[@parser.names.sample]
-  @url = @parser.google_map_link(@entry)
-
+  @entry_count = @storage.entry_count
+  @area_count = @storage.unique_areas.count
+  @unique_areas = @storage.unique_areas
+  
   erb(:index)
 end
 
 get '/search' do 
   @search_terms = params[:query]
-  @search_results = entries_matching_search_terms(@search_terms)
+  @search_results = @storage.search(@search_terms)
 
   erb(:search)
 end
 
 get '/entry/:name' do 
   @name = params[:name]
-  @entry = @address_table[@name]
-  @url = @parser.google_map_link(@entry)
+  @entry = @storage.fetch_entry_by_name(@name)
+  @url = google_map_link(@entry)
 
   erb(:entry)
 end
 
 get '/area/:area' do 
   @area = params[:area]
+  @unique_areas = @storage.unique_areas
 
   erb(:area)
 end

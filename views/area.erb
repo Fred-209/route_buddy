@@ -1,6 +1,6 @@
 <% if @unique_areas.include?(@area) %>
   <h3><%= @area %> Entries:</h3>
-  <% entries_in_area = entries_in_area(@area) %>
+  <% entries_in_area = @storage.entries_for_area(@area) %>
   <% route_groups = group_by_route_num(entries_in_area) %>
   <% route_groups.each_pair do |route_num, entries| %>
     <details>
@@ -8,7 +8,7 @@
       <summary><%= title %></summary>
       <ul>
         <% entries.each do |entry| %>
-          <li><a href="/entry/<%= entry %>"><%= entry %></a></li>
+          <li><a href="/entry/<%= entry['name'] %>"><%= entry['name'] %></a></li>
         <% end %>
       </ul>
     </details>
