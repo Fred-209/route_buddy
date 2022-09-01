@@ -8,7 +8,6 @@ class DatabasePersistence
     else
       PG.connect(dbname: "osmand_favorites")
     end
-    # @db = PG.connect(dbname: "osmand_favorites")
     @logger = logger if logger
   end
   
@@ -110,7 +109,3 @@ class DatabasePersistence
   end
 end
 
-test = DatabasePersistence.new
-# new_entry = { name: 'another test', area: 'launch school', route_num: '4', route_box: '445', long: -212.333, lat: 44.444, notes: 'DELETE ME'}
-# test.add_entry(new_entry)
-test.delete_entry(1261)

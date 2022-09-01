@@ -40,11 +40,17 @@ not_found do
 end
 
 get '/' do 
+  
+  
+  erb(:index)
+end
+
+get '/view_entries' do 
   @entry_count = @storage.entry_count
   @area_count = @storage.unique_areas.count
   @unique_areas = @storage.unique_areas
-  
-  erb(:index)
+
+  erb(:view_entries)
 end
 
 get '/search' do 
