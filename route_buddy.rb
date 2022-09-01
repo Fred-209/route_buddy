@@ -3,7 +3,9 @@ require 'tilt/erubis'
 require_relative 'lib/database_persistence'
 
 
-
+configure(:production) do 
+  set :bind, '0.0.0.0'
+end
 configure(:development) do 
   require "sinatra/reloader" 
   also_reload 'lib/database_persistence.rb'
