@@ -2,9 +2,6 @@ require 'sinatra'
 require 'tilt/erubis'
 require_relative 'lib/database_persistence'
 
-set :bind, '0.0.0.0'
-
-
 
 configure(:development) do 
   require "sinatra/reloader" 
@@ -15,6 +12,9 @@ before do
   @storage = DatabasePersistence.new(logger)
 end
 
+after do 
+  @storage.disconnect
+end
 helpers do 
   
   def google_map_link(entry)
