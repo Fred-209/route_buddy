@@ -1,0 +1,33 @@
+<form class="edit-entry" action="/edit_entry" method="post">
+  <fieldset>
+    <h2>Edit Entry Details</h2>
+    <label>
+        Name:
+        <input type="text" name="name" value="<%= @entry['name'] %>" required />
+      </label>
+      <label>
+        Area:
+        <input type="text" name="area" value="<%= @entry['area'] %>" required />
+      </label>
+      <label>
+        Route Number:
+        <input type="text" name="route_num" value="<%= @entry['route_num'] %>" />
+      </label>
+      <label>
+        Route Box:
+        <input type="text" name="route_box" value="<%= @entry['route_box'] %>" />
+      </label>
+      <label>
+        Coordinates:
+        <input type="text" name="lat" value="<%= @entry['lat'] %>" required />
+        <input type="text" name="long" value="<%= @entry['long'] %>" required />
+      </label>
+      <label>
+        Notes:
+        <textarea name="notes" rows=8 cols=30>
+          <%= @entry['notes'] %>
+        </textarea>
+      </label>
+
+  </fieldset>
+</form>

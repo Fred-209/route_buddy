@@ -69,18 +69,26 @@ post '/add_entry' do
   erb(:add_entry)
 end
 
-get '/delete_entry' do 
-  
-
-  erb(:delete_entry)
-end
 
 get '/lookup_entry' do
-  @entries = @storage.search(params[:search_terms])
   
-  erb(:entries_found)
+  erb(:lookup_entry)
 end 
 
+get '/select_entry' do 
+  @entries = @storage.search(params[:search_terms])
+
+  erb(:select_entry)
+end
+
+get '/edit_entry' do 
+  @entry = @storage.fetch_entry_by_id(params["result"].to_i).first
+
+  erb(:edit_entry)
+end
+
+
+# Search address entries
 get '/search' do 
   @search_terms = params[:query]
 

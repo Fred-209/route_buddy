@@ -1,0 +1,9 @@
+<form class="entries-found" action="/edit_entry" method="get">
+  <fieldset>
+    <h2>Select the Entry You Want To Edit</h2>
+      <% @entries.each do |entry| %>
+        <label><input type="radio" name="result" id="result" value="<%= entry['id'] %>" required /><%= entry['name'] %> from <%= entry['area'] %></label>
+      <% end %>
+    <input type="submit" value="Submit" />
+  </fieldset>
+</form>

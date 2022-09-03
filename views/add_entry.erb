@@ -1,5 +1,6 @@
 <section id="add-entry-form" >
-  <form action="/add_entry" method="post">
+  <form action="/add_entry" method="post"
+    onSubmit="return confirm('Are you sure you want to add an entry?');">
     <fieldset>
       <h1>Enter Address Details</h1>
       <label>
