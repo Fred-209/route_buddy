@@ -15,12 +15,17 @@ end
 after do 
   @storage.disconnect
 end
+
 helpers do 
   
+  # def add_entry_to_storage
+  #   @storage.add_entry()
+  # end
+
   def google_map_link(entry)
     lat = entry['lat']
-    lon = entry['long']
-    "https://www.google.com/maps/search/?api=1&query=#{lat},#{lon}"
+    long = entry['long']
+    "https://www.google.com/maps/search/?api=1&query=#{lat},#{long}"
   end
 
   def group_by_route_num(entries)
@@ -53,9 +58,31 @@ get '/view_entries' do
   erb(:view_entries)
 end
 
+get '/add_entry' do 
+
+  erb(:add_entry)
+end
+
+post '/add_entry' do 
+  @storage.add_entry(params)
+  session[:success] = "Address entry added to the database successfully."
+  erb(:add_entry)
+end
+
+get '/delete_entry' do 
+  
+
+  erb(:delete_entry)
+end
+
+get '/lookup_entry' do
+  @entries = @storage.search(params[:search_terms])
+  
+  erb(:entries_found)
+end 
+
 get '/search' do 
   @search_terms = params[:query]
-  @search_results = @storage.search(@search_terms)
 
   erb(:search)
 end

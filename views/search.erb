@@ -2,10 +2,11 @@
   <p>Search box can't be empty. Try again.</p>
 <% else %>
   <% if @search_terms %>
-    <% if @search_results.compact.empty? %>
+  <% search_results = @storage.search(@search_terms)%>
+    <% if search_results.compact.empty? %>
       <p>Sorry, no matches were found.</p>
     <% else %>
-      <% search_results_by_area = group_by_area(@search_results) %>
+      <% search_results_by_area = group_by_area(search_results) %>
       <h2>Results for '<%= @search_terms %>' </h2>
       <% search_results_by_area.each_pair do |area, entries| %>
         <details>

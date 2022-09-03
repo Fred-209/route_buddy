@@ -42,6 +42,34 @@
       .view-entries-list li {
         list-style:none;
       }
+
+      #add-entry-form label {
+        display: block;
+      }
+
+      .flash {
+        max-width: 960px;
+        padding: 10px 20px;
+        margin: 20px auto 1.5em auto;
+        color: #3399cc;
+        background: #CBE5F2;
+      }
+
+      .flash p {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .flash.error {
+        color: #ff6633;
+        background: #FFCFBF;
+      }
+
+      .flash.success {
+        color: #33cc99;
+        background: #CBF2E5;
+      }
+
     </style>
   </head>
   
@@ -54,16 +82,28 @@
           </li><li>
             <a href="/view_entries">View Entries</a>
           </li><li>
-            <a href="/">Add New Entry</a>
+            <a href="/add_entry">Add New Entry</a>
           </li><li>
             <a href="/">Edit Entry</a>
           </li><li>
-            <a href="/">Delete Entry</a>
+            <a href="/delete_entry">Delete Entry</a>
           </li>
         </ul>
       </nav>
     </header>
      
+     <% if session[:error] %>
+      <div class="flash error">
+        <p><%= session.delete(:error) %></p>
+      </div>
+    <% end %>
+
+    <% if session[:success] %>
+      <div class="flash success">
+        <p><%= session.delete(:success) %></p>
+      </div>
+    <% end %>
+
     <section class="main-content">
       <%= yield %>
     </section>

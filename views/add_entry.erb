@@ -1,0 +1,37 @@
+<section id="add-entry-form" >
+  <form action="/add_entry" method="post">
+    <fieldset>
+      <h1>Enter Address Details</h1>
+      <label>
+        Name:
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        Area:
+        <input type="text" name="area" required />
+      </label>
+      <label>
+        Route Number:
+        <input type="text" name="route_num" />
+      </label>
+      <label>
+        Route Box:
+        <input type="text" name="route_box" />
+      </label>
+      <label>
+        Coordinates:
+        <input type="text" name="lat" required placeholder="Lattitude" required />
+        <input type="text" name="long" required placeholder="Longitude" required />
+      </label>
+      <label>
+        Notes:
+        <textarea 
+          name="notes" rows=8 cols=30 placeholder = "Enter any additional notes about the address here" >
+        </textarea>
+      </label>
+
+      <input type="Submit" value="Submit" />
+
+    </fieldset>
+  </form>
+</section>

@@ -9,6 +9,7 @@ class DatabasePersistence
       PG.connect(dbname: "osmand_favorites")
     end
     @logger = logger if logger
+    # @db = PG.connect(dbname: "osmand_favorites")
   end
   
   def add_entry(values)
@@ -85,9 +86,10 @@ class DatabasePersistence
   
   def names
     sql = "SELECT name FROM osm_favorites;"
-    query(sql).values.map { |name| name.first }
+    # query(sql).values.map { |name| name.first }
+    query(sql).field_values('name')
   end
-  
+
   def query(sql, *params)
     @logger.info "#{sql} : #{params}" if @logger
     @db.exec_params(sql, params)
@@ -109,3 +111,5 @@ class DatabasePersistence
   end
 end
 
+test = DatabasePersistence.new
+p test.names
