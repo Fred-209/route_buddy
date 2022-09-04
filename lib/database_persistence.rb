@@ -102,7 +102,7 @@ class DatabasePersistence
  
   def search(search_terms)
     names.each_with_object([]) do |name, matches|
-      matches << fetch_entry_by_name(name) if name.match?(/#{search_terms}/i)
+      matches << fetch_entry_by_name(name) if name.match?(/#{search_terms.delete('\\')}/i)
     end
   end
   
@@ -110,6 +110,3 @@ class DatabasePersistence
     areas.uniq
   end
 end
-
-test = DatabasePersistence.new
-p test.names

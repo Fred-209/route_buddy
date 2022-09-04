@@ -22,12 +22,13 @@
         <input type="text" name="lat" value="<%= @entry['lat'] %>" required />
         <input type="text" name="long" value="<%= @entry['long'] %>" required />
       </label>
-      <label>
-        Notes:
-        <textarea name="notes" rows=8 cols=30>
-          <%= @entry['notes'] %>
-        </textarea>
+      
+      <label id="edit-notes" for="notes">Notes</label>
+      <textarea name="notes" id="notes" rows=8 cols=30><%= @entry['notes'].strip %></textarea>
       </label>
+      <input type="hidden" name="id" value="<%= @entry['id'] %>" />
+      <input type="submit" value="Submit Changes"
+             onclick="return confirm('Are you sure you want to make these changes?')" />
 
   </fieldset>
 </form>

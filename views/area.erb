@@ -1,19 +1,21 @@
-<% if @unique_areas.include?(@area) %>
-  <h3><%= @area %> Entries:</h3>
-  <% entries_in_area = @storage.entries_for_area(@area) %>
-  <% route_groups = group_by_route_num(entries_in_area) %>
-  <% route_groups.each_pair do |route_num, entries| %>
-    <details>
-      <% title = route_num == "N/A" ? "Non RR Addresses" : "RR #{route_num}" %>
-      <summary><%= title %></summary>
-      <ul>
-        <% entries.each do |entry| %>
-          <li><a href="/entry/<%= entry['name'] %>"><%= entry['name'] %></a></li>
-        <% end %>
-      </ul>
-    </details>
+<section class="areas-display">
+  <% if @unique_areas.include?(@area) %>
+    <h3><%= @area %> Entries:</h3>
+    <% entries_in_area = @storage.entries_for_area(@area) %>
+    <% route_groups = group_by_route_num(entries_in_area) %>
+    <% route_groups.each_pair do |route_num, entries| %>
+      <details>
+        <% title = route_num == "N/A" ? "Non RR Addresses" : "RR #{route_num}" %>
+        <summary><%= title %></summary>
+        <ul>
+          <% entries.each do |entry| %>
+            <li><a href="/entry/<%= entry['name'] %>"><%= entry['name'] %></a></li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+    
+  <% else %>
+    <h3><%= @area %> was not found.</h3>
   <% end %>
-  
-<% else %>
-  <h3><%= @area %> was not found.</h3>
-<% end %>
+</section>

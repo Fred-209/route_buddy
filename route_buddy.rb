@@ -2,9 +2,14 @@ require 'sinatra'
 require 'tilt/erubis'
 require_relative 'lib/database_persistence'
 
+configure do 
+  set :session_secret, "a_secret"
+  enable :sessions
+end
 
 configure(:development) do 
   require "sinatra/reloader" 
+  require 'pry'
   also_reload 'lib/database_persistence.rb'
 end
 
@@ -18,9 +23,11 @@ end
 
 helpers do 
   
-  # def add_entry_to_storage
-  #   @storage.add_entry()
-  # end
+  def error_for_address_name(name)
+    unless (1..100).cover?(name.strip.length)
+      "Name cannot be empty."
+    end
+  end
 
   def google_map_link(entry)
     lat = entry['lat']
@@ -37,6 +44,15 @@ def group_by_area(entries)
   entries.group_by { |entry| entry['area'] }
 end
 
+def update_entry!(new_values)
+  entry_id = new_values['id'].to_i
+
+  new_values.each_pair do |column, new_value|
+    next if column == 'id'
+    @storage.edit_entry(entry_id, column, new_value)
+  end
+end
+
 
 #### Routes
 
@@ -45,8 +61,6 @@ not_found do
 end
 
 get '/' do 
-  
-  
   erb(:index)
 end
 
@@ -58,35 +72,40 @@ get '/view_entries' do
   erb(:view_entries)
 end
 
+# Form to add new entry to database
 get '/add_entry' do 
-
   erb(:add_entry)
 end
 
+# Adds new entry to database
 post '/add_entry' do 
   @storage.add_entry(params)
   session[:success] = "Address entry added to the database successfully."
   erb(:add_entry)
 end
 
-
-get '/lookup_entry' do
+# load entry into form for editing
+get '/edit_entry/:id' do 
+  @entry = @storage.fetch_entry_by_id(params['id'].to_i).first
   
-  erb(:lookup_entry)
-end 
-
-get '/select_entry' do 
-  @entries = @storage.search(params[:search_terms])
-
-  erb(:select_entry)
-end
-
-get '/edit_entry' do 
-  @entry = @storage.fetch_entry_by_id(params["result"].to_i).first
-
   erb(:edit_entry)
 end
 
+# save edit changes to storage
+post '/edit_entry' do 
+  update_entry!(params)
+  session[:success] = "Entry Updated"
+  
+  redirect "/entry/#{params['name'] }"
+end
+
+# delete entry from database
+post '/delete_entry/:id' do 
+  @storage.delete_entry(params[:id].to_i)
+  session[:success] = "Entry Deleted"
+
+  redirect "/"
+end
 
 # Search address entries
 get '/search' do 
@@ -95,6 +114,7 @@ get '/search' do
   erb(:search)
 end
 
+# Display an entry from the database with name of :name
 get '/entry/:name' do 
   @name = params[:name]
   @entry = @storage.fetch_entry_by_name(@name)
@@ -103,6 +123,8 @@ get '/entry/:name' do
   erb(:entry)
 end
 
+
+# display all entries for an area of :area
 get '/area/:area' do 
   @area = params[:area]
   @unique_areas = @storage.unique_areas
