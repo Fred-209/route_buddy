@@ -6,6 +6,15 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
     <title>Route Buddy</title>
     <style>
+      html, body {
+        background-color: #28afe0;
+        color: #fff;
+      }
+
+      .main-navigation-bar {
+        /* border: 3px black solid; */
+      }
+
       .main-navigation-bar ul {
         width: auto%
         margin: 10px auto;
@@ -17,8 +26,8 @@
         list-style: none;
         width: 33%;
         text-align: center;
-        border: medium solid cyan;
-        background-color:cyan;
+        /* border: medium solid cyan; */
+        /* background-color:cyan; */
         padding: 10px;
       }
 
@@ -41,6 +50,10 @@
 
       .view-entries-list li {
         list-style:none;
+      }
+
+      #add-entry-form fieldset {
+        border: none;
       }
 
       #add-entry-form label {
@@ -116,6 +129,29 @@
         display: inline-block;
       }
 
+      .nav-button {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 5px;
+        border: none;
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1);
+        background: #00c3b3;
+      }
+      .nav-button:hover {
+        background-color: #7bc44b;
+      }
+      .nav-button:active {
+        top: 2px;
+      }
+
     </style>
   </head>
   
@@ -124,11 +160,11 @@
       <nav class="main-navigation-bar">
         <ul>
           <li>
-            <a href="/">Home</a>
+            <a href="/"><button class="nav-button" type="button">Home</button></a>
           </li><li>
-            <a href="/view_entries">View Entries</a>
+            <a href="/view_entries"><button class="nav-button" type="button">View Entries</button></a>
           </li><li>
-            <a href="/add_entry">Add New Entry</a>
+            <a href="/add_entry"><button class="nav-button" type="button">Add New Entry</button></a>
           </li>
         </ul>
       </nav>
