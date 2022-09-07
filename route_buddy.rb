@@ -5,12 +5,15 @@ require_relative 'lib/database_persistence'
 configure do 
   set :session_secret, "a_secret"
   enable :sessions
+  require "sinatra/reloader"
+  also_reload 'lib/database_persistence.rb'
+  also_reload 'stylesheets/main.css'
 end
 
 configure(:development) do 
-  require "sinatra/reloader" 
+   
   require 'pry'
-  also_reload 'lib/database_persistence.rb'
+  
 end
 
 before do 
