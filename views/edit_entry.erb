@@ -1,34 +1,34 @@
-<form class="edit-entry" action="/edit_entry" method="post">
-  <fieldset>
-    <h2>Edit Entry Details</h2>
-    <label>
-        Name:
-        <input type="text" name="name" value="<%= @entry['name'] %>" required />
-      </label>
-      <label>
-        Area:
-        <input type="text" name="area" value="<%= @entry['area'] %>" required />
-      </label>
-      <label>
-        Route Number:
-        <input type="text" name="route_num" value="<%= @entry['route_num'] %>" />
-      </label>
-      <label>
-        Route Box:
-        <input type="text" name="route_box" value="<%= @entry['route_box'] %>" />
-      </label>
-      <label>
-        Coordinates:
-        <input type="text" name="lat" value="<%= @entry['lat'] %>" required />
-        <input type="text" name="long" value="<%= @entry['long'] %>" required />
-      </label>
+<div id="edit-entry-form">
+  <form  action="/edit_entry" method="post">
+    <fieldset>
+      <h1>Edit Entry Details</h1>
+      <div id="edit-entry-grid">
+        <label for="name-input">Name:</label>
+        <input type="text" id="name-input" name="name" value="<%= @entry['name'] %>" required />
+          
+        <label for="area-input">Area</label>
+        <input type="text" id="area-input" name="area" value="<%= @entry['area'] %>" required />
+        
+        <label for="rnum-input">Route Number:</label>
+        <input type="text" id="rnum-input" name="route_num" value="<%= @entry['route_num'] %>" />
       
-      <label id="edit-notes" for="notes">Notes</label>
-      <textarea name="notes" id="notes" rows=8 cols=30><%= @entry['notes'].strip %></textarea>
-      </label>
-      <input type="hidden" name="id" value="<%= @entry['id'] %>" />
-      <input type="submit" value="Submit Changes"
-             onclick="return confirm('Are you sure you want to make these changes?')" />
+        <label for="rbox-input">Route Box:</label>
+        <input type="text" id="rbox-input" name="route_box" value="<%= @entry['route_box'] %>" />
 
-  </fieldset>
-</form>
+        <label for="coordinates-input">Coordinates:</label>
+        <div id="coordinates-input">
+            <input type="text" name="lat" value="<%= @entry['lat'] %>" required />
+            <input type="text" name="long" value="<%= @entry['long'] %>" required />
+        </div>  
+
+        <div id="notes-input">
+          <label id="notes-input-label" for="notes-input-text">Notes</label>
+          <textarea name="notes" id="notes-input-text" rows=8 cols=30><%= @entry['notes'].strip %></textarea>
+        </div>
+
+        <input type="hidden" name="id" value="<%= @entry['id'] %>" />
+        <input type="submit" value="Submit Changes"
+              onclick="return confirm('Are you sure you want to make these changes?')" />
+    </fieldset>
+  </form>
+</div>

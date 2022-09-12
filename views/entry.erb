@@ -1,37 +1,52 @@
-<section class="entry-display">
+<div id="entry-container">
   <h2><%= @name %></h3>
-  <p>
-    <strong>Area:</strong> <%= @entry['area'] %>
-  </p>
-  <p>
-    <strong>Route Number:</strong> <%= @entry['route_num'] %>
-  <p>
-  <p>
-    <strong>Route Box:</strong> <%= @entry['route_box'] %>
-  <p>
-    <strong>Coordinates: </strong>
-    <ul> 
-      <li><em>Lattitude:</em> <%= @entry['lat'] %></li>
-      <li><em>Longitude:</em> <%= @entry['long'] %></li>
+  <dl>
+    <dt>Area:</dt>
+    <dd><%= @entry['area'] %></dd>
+  </dl>
+  <dl>
+    <dt>Route Number:</dt>
+    <dd><%= @entry['route_num'] %></dd>
+  </dl>
+  <dl>
+    <dt>Route Box:</dt>
+    <dd><%= @entry['route_box'] %></dd>
+  </dl>
+  <dl id="entry-coordinates">
+    <dt>Coordinates</dt>
+    <dd>
+      <ul>
+        <li><em>Lattitude</em>: <%= @entry['lat'] %></li>
+        <li><em>Longitude</em>: <%= @entry['long'] %></li>
+      </ul>
+    </dd>
+    </dt>
+  </dl>
+  <dl>
+    <dt id="color-google"><%= color_google %>Maps Link:</dt>
+    <dd><a href=<%= @url %> target=_blank><img src="/images/google_map_pin.png"></a></dd>
+  </dl>
+  <dl id="notes-display">
+    <dt>Notes</dt>
+    <dd><%= @entry['notes'] %></dd>
+  </dl>
+
+  <div id="submit-buttons">
+    <ul>
+      <li>
+        <form id="edit-button" action="/edit_entry/<%= @entry['id'] %>" method="get">
+          <button>Edit</button>
+        </form>
+      </li>
+      <li>
+        <form id="delete-button" action="/delete_entry/<%= @entry['id'] %>" method="post">
+          <button onclick="return confirm('Are you sure you want to make these changes?')">
+            Delete
+          </button>
+        </form>
+      </li>
     </ul>
-  </p>
-  <p>
-    <strong>Google Maps Link:</strong> <a href=<%= @url %> target=_blank>Link</a>
-  </p>
-  <p>
-    <strong>Description:</strong> <%= @entry['notes'] %>
-  </p>
+  </div>
+</div>
 
-  <form id="edit-button" action="/edit_entry/<%= @entry['id'] %>" method="get">
-    <button>Edit</button>
-  </form>
 
-  <form id="delete-button" action="/delete_entry/<%= @entry['id'] %>" method="post">
-    <button onclick="return confirm('Are you sure you want to make these changes?')">
-      Delete
-    </button>
-  </form>
-
-  
-
-</section>

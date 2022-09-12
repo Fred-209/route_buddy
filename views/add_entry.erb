@@ -1,38 +1,36 @@
-<section id="add-entry-form" >
+<div id="add-entry-form" >
   <form action="/add_entry" method="post"
     onSubmit="return confirm('Are you sure you want to add an entry?');">
     <fieldset>
       <h1>Enter Address Details</h1>
-      <label>
-        Name:
-        <input type="text" name="name" placeholder="RR 3 Box 14 - Simpson" required />
-      </label>
-      <label>
-        Area:
-        <input type="text" name="area" placeholder="Dallas" required />
-      </label>
-      <label>
-        Route Number:
+      <div class="add-entry-grid">
+
+        <label for="name-input">Name:</label>
+        <input type="text" id="name_input" name="name" placeholder="RR 3 Box 14 - Simpson" required />
+
+        <label for="area-input">Area:</label>
+        <input type="text" id="area_input" name="area" placeholder="Dallas" required />
+        
+        <label for="rnum-input">Route Number:</label>
         <input type="text" name="route_num" placeholder="3" />
-      </label>
-      <label>
-        Route Box:
+        
+        <label for="rbox-input">Route Box:</label>
         <input type="text" name="route_box" placeholder="44"/>
-      </label>
-      <label>
-        Coordinates:
-        <input type="text" name="lat" required placeholder="32.77911908614115" required />
-        <input type="text" name="long" required placeholder="-96.79900219415437" required />
-      </label>
-      <label>
-        Notes:
-        <textarea 
-          name="notes" rows=8 cols=30 placeholder = "Enter any additional notes about the address here" >
-        </textarea>
-      </label>
+        
+        <label for="coordinates-input">Coordinates:</label>
+        <div id="coordinates-input">
+          <input type="text" name="lat" required placeholder="32.77911908614115" required />
+          <input type="text" name="long" required placeholder="-96.79900219415437" required />
+        </div>  
+        
+        <div id="notes-input">
+          <label for="notes-input-text" id="notes-input-label">Notes:</label>
+          <textarea 
+              name="notes" id="notes-input-text" rows=8 cols=30 placeholder = "Enter any additional notes about the address here" ></textarea>
+        </div>
 
-      <input type="Submit" value="Submit" />
-
+        <input type="Submit" value="Submit" />
+      </div>
     </fieldset>
   </form>
-</section>
+</div>

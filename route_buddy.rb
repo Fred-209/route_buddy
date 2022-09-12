@@ -1,35 +1,47 @@
+require 'bundler/setup'
 require 'sinatra'
 require 'tilt/erubis'
 require_relative 'lib/database_persistence'
+require 'sinatra/reloader'
 
-configure do 
-  set :session_secret, "a_secret"
+configure do
+  set :session_secret, 'a_secret'
   enable :sessions
-  require "sinatra/reloader"
-  also_reload 'lib/database_persistence.rb'
-  also_reload 'stylesheets/main.css'
+  enable :reloader
 end
 
-configure(:development) do 
-   
+configure(:development) do
   require 'pry'
+  require 'solargraph'
+  
+  also_reload 'public/stylesheets/main.css'
+  also_reload 'lib/database_persistence.rb'
   
 end
 
-before do 
+before do
   @storage = DatabasePersistence.new(logger)
 end
 
-after do 
+after do
   @storage.disconnect
 end
 
-helpers do 
-  
+helpers do
+
+  def color_google
+    <<~TEXT
+        <span>G</span><!--
+        --><span>o</span><!--
+        --><span>o</span><!--
+        --><span>g</span><!--
+        --><span>l</span><!--
+        --><span>e</span>
+    TEXT
+  end
+
   def error_for_address_name(name)
-    unless (1..100).cover?(name.strip.length)
-      "Name cannot be empty."
-    end
+    'Name cannot be empty.' unless (1..100).cover?(name.strip.length)
   end
 
   def google_map_link(entry)
@@ -52,22 +64,22 @@ def update_entry!(new_values)
 
   new_values.each_pair do |column, new_value|
     next if column == 'id'
+
     @storage.edit_entry(entry_id, column, new_value)
   end
 end
 
-
 #### Routes
 
-not_found do 
+not_found do
   redirect '/'
 end
 
-get '/' do 
+get '/' do
   erb(:index)
 end
 
-get '/view_entries' do 
+get '/view_entries' do
   @entry_count = @storage.entry_count
   @area_count = @storage.unique_areas.count
   @unique_areas = @storage.unique_areas
@@ -76,49 +88,49 @@ get '/view_entries' do
 end
 
 # Form to add new entry to database
-get '/add_entry' do 
+get '/add_entry' do
   erb(:add_entry)
 end
 
 # Adds new entry to database
-post '/add_entry' do 
+post '/add_entry' do
   @storage.add_entry(params)
-  session[:success] = "Address entry added to the database successfully."
-  erb(:add_entry)
+  session[:success] = 'Address entry added to the database successfully.'
+  redirect '/add_entry'
 end
 
 # load entry into form for editing
-get '/edit_entry/:id' do 
+get '/edit_entry/:id' do
   @entry = @storage.fetch_entry_by_id(params['id'].to_i).first
-  
+
   erb(:edit_entry)
 end
 
 # save edit changes to storage
-post '/edit_entry' do 
+post '/edit_entry' do
   update_entry!(params)
-  session[:success] = "Entry Updated"
-  
-  redirect "/entry/#{params['name'] }"
+  session[:success] = 'Entry Updated'
+
+  redirect "/entry/#{params['name']}"
 end
 
 # delete entry from database
-post '/delete_entry/:id' do 
+post '/delete_entry/:id' do
   @storage.delete_entry(params[:id].to_i)
-  session[:success] = "Entry Deleted"
+  session[:success] = 'Entry Deleted'
 
-  redirect "/"
+  redirect '/'
 end
 
 # Search address entries
-get '/search' do 
+get '/search' do
   @search_terms = params[:query]
 
   erb(:search)
 end
 
 # Display an entry from the database with name of :name
-get '/entry/:name' do 
+get '/entry/:name' do
   @name = params[:name]
   @entry = @storage.fetch_entry_by_name(@name)
   @url = google_map_link(@entry)
@@ -126,9 +138,8 @@ get '/entry/:name' do
   erb(:entry)
 end
 
-
 # display all entries for an area of :area
-get '/area/:area' do 
+get '/area/:area' do
   @area = params[:area]
   @unique_areas = @storage.unique_areas
 

@@ -1,4 +1,5 @@
-<section>
+<section class="view-entries">
+
   <header class="view-entries-header">
     <h1>Rural Route Stops</h1>
 
@@ -8,11 +9,10 @@
 
     <p><strong>Click on an area's link to see the address entries for that area.</strong></p>
   </header>
-    <section class="view-entries-list">
-      <ul>
-        <% @unique_areas.sort.each do |area| %>
-          <li><a href="/area/<%= area %>"><%= area %></a></li>
-        <% end %>
-      </ul>
-  </section>
+
+  <ul class="view-entries-list">
+    <% @unique_areas.sort.each do |area| %>
+      <li><a href="/area/<%= area %>"><%= area %></a></li>
+    <% end %>
+  </ul>
 <section>

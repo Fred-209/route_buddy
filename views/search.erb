@@ -1,23 +1,32 @@
-<% if @search_terms == ''%>
-  <p>Search box can't be empty. Try again.</p>
-<% else %>
-  <% if @search_terms %>
-  <% search_results = @storage.search(@search_terms)%>
-    <% if search_results.compact.empty? %>
-      <p>Sorry, no matches were found.</p>
-    <% else %>
-      <% search_results_by_area = group_by_area(search_results) %>
-      <h2>Results for '<%= @search_terms %>' </h2>
-      <% search_results_by_area.each_pair do |area, entries| %>
-        <details>
-          <summary><strong><%= area %></strong></summary>
-          <ul>
-            <% entries.each do |entry| %>
-              <li><a href="/entry/<%= entry['name'] %>"><%= entry['name']  %></a></li>
-            <% end %>  
-          </ul>
-        </details>
-      <% end %>   
+<section class="search-bar">
+      <h2 class="content-subhead">Search Entries</h2>
+        <form action="/search" method="get">
+          <input name="query" value="<%= params[:query] %>">
+          <button type="submit">Search</button>
+        </form>
+
+
+  <% if @search_terms == ''%>
+    <p>Search box can't be empty. Try again.</p>
+  <% else %>
+    <% if @search_terms %>
+    <% search_results = @storage.search(@search_terms)%>
+      <% if search_results.compact.empty? %>
+        <p>Sorry, no matches were found.</p>
+      <% else %>
+        <% search_results_by_area = group_by_area(search_results) %>
+        <h2>Results for '<%= @search_terms %>' </h2>
+        <% search_results_by_area.each_pair do |area, entries| %>
+          <details>
+            <summary><strong><%= area %></strong></summary>
+            <ul>
+              <% entries.each do |entry| %>
+                <li><a href="/entry/<%= entry['name'] %>"><%= entry['name']  %></a></li>
+              <% end %>  
+            </ul>
+          </details>
+        <% end %>   
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</section>

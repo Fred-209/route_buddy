@@ -7,4 +7,8 @@ gem "sinatra-contrib"
 gem "erubis"
 gem "puma"
 gem "pg"
-gem "pry"
+
+group :development do
+  gem 'solargraph'
+  gem 'pry'
+end
